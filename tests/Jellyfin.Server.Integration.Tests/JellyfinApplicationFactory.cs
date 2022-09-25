@@ -31,6 +31,7 @@ namespace Jellyfin.Server.Integration.Tests
             // Perform static initialization that only needs to happen once per test-run
             Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
             Program.PerformStaticInitialization();
+            Environment.SetEnvironmentVariable("JELLYFIN_RELOAD_ON_CHANGE", false.ToString());
         }
 
         /// <inheritdoc/>

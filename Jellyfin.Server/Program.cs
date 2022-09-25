@@ -582,11 +582,13 @@ namespace Jellyfin.Server
                 inMemoryDefaultConfig[DefaultRedirectKey] = "api-docs/swagger";
             }
 
+            var reloadOnChange = bool.TryParse(Environment.GetEnvironmentVariable("JELLYFIN_RELOAD_ON_CHANGE"), out bool reload) ? reload : true;
+
             return config
                 .SetBasePath(appPaths.ConfigurationDirectoryPath)
                 .AddInMemoryCollection(inMemoryDefaultConfig)
-                .AddJsonFile(LoggingConfigFileDefault, optional: false, reloadOnChange: true)
-                .AddJsonFile(LoggingConfigFileSystem, optional: true, reloadOnChange: true)
+                .AddJsonFile(LoggingConfigFileDefault, optional: false, reloadOnChange: reloadOnChange)
+                .AddJsonFile(LoggingConfigFileSystem, optional: true, reloadOnChange: reloadOnChange)
                 .AddEnvironmentVariables("JELLYFIN_")
                 .AddInMemoryCollection(commandLineOpts.ConvertToConfig());
         }
